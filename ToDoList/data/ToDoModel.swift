@@ -19,8 +19,17 @@ class AppModel {
         todolist.append(text)
     }
 
-    static func del() {
+    static func remove(_ index: Int) {
+        guard case 0..<todolist.endIndex = index else { return }
 
+        todolist.remove(at: index)
+    }
+
+    static func rename(_ index: Int, _ text: String) {
+        guard case 0..<todolist.endIndex = index else { return }
+        guard !text.isEmpty else { return }
+
+        todolist[index] = text
     }
 
     static func get(_ index: Int) -> String {
