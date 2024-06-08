@@ -14,6 +14,7 @@
 		F1D5A3052C14AA44004B3EE1 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = F1D5A3042C14AA44004B3EE1 /* Base */; };
 		F1D5A30D2C14AC1A004B3EE1 /* ListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D5A30C2C14AC1A004B3EE1 /* ListController.swift */; };
 		F1D5A3122C14B0B8004B3EE1 /* ToDoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D5A3112C14B0B8004B3EE1 /* ToDoModel.swift */; };
+		F1D5A3142C14C878004B3EE1 /* TextPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1D5A3132C14C878004B3EE1 /* TextPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		F1D5A3062C14AA44004B3EE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1D5A30C2C14AC1A004B3EE1 /* ListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListController.swift; sourceTree = "<group>"; };
 		F1D5A3112C14B0B8004B3EE1 /* ToDoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoModel.swift; sourceTree = "<group>"; };
+		F1D5A3132C14C878004B3EE1 /* TextPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				F1D5A3032C14AA44004B3EE1 /* LaunchScreen.storyboard */,
 				F1D5A2F82C14AA42004B3EE1 /* AppDelegate.swift */,
 				F1D5A2FA2C14AA42004B3EE1 /* SceneDelegate.swift */,
+				F1D5A3132C14C878004B3EE1 /* TextPicker.swift */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -166,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1D5A2F92C14AA42004B3EE1 /* AppDelegate.swift in Sources */,
+				F1D5A3142C14C878004B3EE1 /* TextPicker.swift in Sources */,
 				F1D5A3122C14B0B8004B3EE1 /* ToDoModel.swift in Sources */,
 				F1D5A2FB2C14AA42004B3EE1 /* SceneDelegate.swift in Sources */,
 				F1D5A30D2C14AC1A004B3EE1 /* ListController.swift in Sources */,

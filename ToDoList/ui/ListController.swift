@@ -7,15 +7,18 @@
 
 import UIKit
 
-class ListController: UITableViewController {
+final class ListController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     @IBAction func addToDoAction(_ sender: Any) {
-        AppModel.add("New \(AppModel.count + 1)")
-        tableView.reloadData()
+        TextPicker().show(in: self, placeholder: "New to-do list entry") { [weak self] text in
+            AppModel.add(text)
+
+            self?.tableView.reloadData()
+        }
     }
     
     // MARK: - Table view data source
@@ -42,12 +45,17 @@ class ListController: UITableViewController {
 
         // кнопки действий
         let action = UIContextualAction(style: .normal, title: "Rename") { _, _, completed in
-            AppModel.rename(indexPath.row, "new value")
+            TextPicker().show(in: self, text: AppModel.get(indexPath.row), 
+                    dismiss: {
+                        // скрыть кнопку после
+                        completed(true)
+                    }
+            ) { [weak self] text in
+                AppModel.rename(indexPath.row, text)
 
-            // обновить строку
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-            // скрыть кнопку после
-            completed(true)
+                // обновить строку
+                self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
         }
 
         return UISwipeActionsConfiguration(actions: [action])

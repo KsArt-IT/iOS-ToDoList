@@ -24,7 +24,7 @@
                     <navigationItem key="navigationItem" title="ToDoList" id="iva-Ds-P3L">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="AUl-qn-G98">
                             <connections>
-                                <action selector="addToDoAction:" destination="FWb-Ck-CFJ" id="Aq5-F4-ggH"/>
+                                <action selector="addToDoAction:" destination="FWb-Ck-CFJ" id="Y7T-jT-s4I"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
