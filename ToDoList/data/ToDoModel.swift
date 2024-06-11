@@ -8,33 +8,59 @@
 import Foundation
 
 class AppModel {
-    private static var todolist: [String] = ["To do 1", "To do 2", "To do 3", "To do 4"]
-    static var count: Int {
+    static let shared = AppModel()
+
+    private var todolist: [ToDoItem] = []
+
+    var count: Int {
         todolist.count
     }
 
-    static func add(_ text: String) {
-        guard !text.isEmpty else { return }
+    private init() {}
 
-        todolist.append(text)
+    func add(title: String) {
+        guard !title.isEmpty else { return }
+
+        todolist.append(ToDoItem(title: title, date: Date(), isCompleted: false))
     }
 
-    static func remove(_ index: Int) {
+    func remove(at index: Int) {
         guard case 0..<todolist.endIndex = index else { return }
 
         todolist.remove(at: index)
     }
 
-    static func rename(_ index: Int, _ text: String) {
+    func rename(at index: Int, title: String) {
         guard case 0..<todolist.endIndex = index else { return }
-        guard !text.isEmpty else { return }
+        guard !title.isEmpty else { return }
 
-        todolist[index] = text
+        change(at: index,title: title)
     }
 
-    static func get(_ index: Int) -> String {
-        guard case 0..<todolist.endIndex = index else { return "" }
+    func get(_ index: Int) -> ToDoItem? {
+        guard case 0..<todolist.endIndex = index else { return nil }
 
         return todolist[index]
     }
+
+    func toggle(at index: Int) {
+        guard case 0..<todolist.endIndex = index else { return }
+
+        change(at: index, isCompleted: !todolist[index].isCompleted)
+    }
+
+    private func change(at index: Int, title: String? = nil, date: Date? = nil, isCompleted: Bool? = nil) {
+        let oldItem = todolist[index]
+        todolist[index] = ToDoItem(
+            title: title ?? oldItem.title,
+            date: date ?? oldItem.date,
+            isCompleted: isCompleted ?? oldItem.isCompleted
+        )
+    }
+}
+
+struct ToDoItem: Codable {
+    let title: String
+    let date: Date
+    let isCompleted: Bool
 }

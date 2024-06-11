@@ -15,7 +15,7 @@ final class ListController: UITableViewController {
 
     @IBAction func addToDoAction(_ sender: Any) {
         TextPicker().show(in: self, placeholder: "New to-do list entry") { [weak self] text in
-            AppModel.add(text)
+            AppModel.shared.add(title: text)
 
             self?.tableView.reloadData()
         }
@@ -25,18 +25,25 @@ final class ListController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return AppModel.count
+        return AppModel.shared.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
+        if let item = AppModel.shared.get(indexPath.row) {
 
-        // подготавливаем ячейку
-        var configuration = UIListContentConfiguration.cell()
-        configuration.text = AppModel.get(indexPath.row)
+            // подготавливаем ячейку
+            var configuration = UIListContentConfiguration.cell()
+            // название
+            configuration.text = item.title
+            // дата
+            configuration.secondaryText = item.date.formatted(date: .numeric, time: .shortened)
 
-        cell.contentConfiguration = configuration
+            cell.contentConfiguration = configuration
 
+            // отмечать галкой выполненные
+            cell.accessoryType = item.isCompleted ? .checkmark : .none
+        }
         return cell
     }
 
@@ -45,13 +52,13 @@ final class ListController: UITableViewController {
 
         // кнопки действий
         let action = UIContextualAction(style: .normal, title: "Rename") { _, _, completed in
-            TextPicker().show(in: self, text: AppModel.get(indexPath.row), 
+            TextPicker().show(in: self, text: AppModel.shared.get(indexPath.row)?.title ?? "",
                     dismiss: {
                         // скрыть кнопку после
                         completed(true)
                     }
             ) { [weak self] text in
-                AppModel.rename(indexPath.row, text)
+                AppModel.shared.rename(at: indexPath.row, title: text)
 
                 // обновить строку
                 self?.tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -66,9 +73,9 @@ final class ListController: UITableViewController {
 
         // кнопки действий
         let action = UIContextualAction(style: .destructive, title: "Delete") { _, _, completed in
-            AppModel.remove(indexPath.row)
+            AppModel.shared.remove(at: indexPath.row)
 
-            // обновить строку
+            // удалить строку
             tableView.deleteRows(at: [indexPath], with: .automatic)
             // скрыть кнопку после
             completed(true)
@@ -76,4 +83,12 @@ final class ListController: UITableViewController {
 
         return UISwipeActionsConfiguration(actions: [action])
     }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        AppModel.shared.toggle(at: indexPath.row)
+
+        // обновить строку
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+
 }
