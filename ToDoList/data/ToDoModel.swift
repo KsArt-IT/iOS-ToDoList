@@ -16,18 +16,29 @@ class AppModel {
         todolist.count
     }
 
-    private init() {}
+    private init() {
+        load()
+    }
+
+    // MARK: - Обработка списка
+    func get(_ index: Int) -> ToDoItem? {
+        guard case 0..<todolist.endIndex = index else { return nil }
+
+        return todolist[index]
+    }
 
     func add(title: String) {
         guard !title.isEmpty else { return }
 
         todolist.append(ToDoItem(title: title, date: Date(), isCompleted: false))
+        save()
     }
 
     func remove(at index: Int) {
         guard case 0..<todolist.endIndex = index else { return }
 
         todolist.remove(at: index)
+        save()
     }
 
     func rename(at index: Int, title: String) {
@@ -35,12 +46,6 @@ class AppModel {
         guard !title.isEmpty else { return }
 
         change(at: index,title: title)
-    }
-
-    func get(_ index: Int) -> ToDoItem? {
-        guard case 0..<todolist.endIndex = index else { return nil }
-
-        return todolist[index]
     }
 
     func toggle(at index: Int) {
@@ -56,9 +61,27 @@ class AppModel {
             date: date ?? oldItem.date,
             isCompleted: isCompleted ?? oldItem.isCompleted
         )
+        save()
     }
+
+    // MARK: - Сохранение и загрузка списка
+    private func save() {
+        // кодируем данные и сохраняем
+        if let data = try? PropertyListEncoder().encode(todolist) {
+            UserDefaults.standard.setValue(data, forKey: "todolist")
+        }
+    }
+
+    private func load() {
+        // загружаем и декодируем
+        if let data = UserDefaults.standard.object(forKey: "todolist") as? Data {
+            todolist = (try? PropertyListDecoder().decode([ToDoItem].self, from: data)) ?? []
+        }
+    }
+
 }
 
+// MARK: - Елемент списка
 struct ToDoItem: Codable {
     let title: String
     let date: Date
